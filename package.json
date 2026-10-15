@@ -1,0 +1,14 @@
+{
+  "name": "signal-garden",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node build.js && node server.js",
+    "test": "node --test",
+    "build": "node build.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

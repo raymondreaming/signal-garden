@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "public",
+  "functions": {
+    "api/grow.js": {
+      "maxDuration": 30
+    }
+  },
+  "buildCommand": "npm run build"
+}

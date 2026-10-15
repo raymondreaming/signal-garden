@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101213" />
+    <meta
+      name="description"
+      content="A living botanical instrument. Explore generative geometry with Datastar signals and server-sent events."
+    />
+    <title>Signal Garden — A study in emergence</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✳%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/vendor/datastar.js"></script>
+  </head>
+  <body
+    data-signals="{seed:42,density:420,spread:70,palette:'iris',growth:1,frame:0,elapsed:0,status:'Ready',busy:false,inspect:false,rotation:0}"
+  >
+    <header>
+      <a class="brand" href="/" aria-label="Signal Garden home"
+        ><span class="brand-icon">✳</span> signal garden<span class="edition"
+          >/ 001</span
+        ></a
+      >
+      <nav>
+        <span class="built"><i></i> An experiment in Datastar</span
+        ><a
+          href="https://github.com/raymondreaming/signal-garden"
+          target="_blank"
+          rel="noreferrer"
+          >View source ↗</a
+        >
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">
+            COMPUTATIONAL BOTANY · INTERACTIVE STUDY NO. 001
+          </p>
+          <h1>A little order.<br />A little <em>wonder.</em></h1>
+        </div>
+        <div class="intro-note">
+          <span class="tiny-star">✧</span>
+          <p>
+            Nature never draws the same thing twice.<br />Neither should you.
+          </p>
+          <span class="mono">TUNE THE SIGNAL. WATCH IT GROW.</span>
+        </div>
+      </section>
+      <section class="instrument" aria-label="Generative art instrument">
+        <div
+          class="canvas"
+          data-attr:class="'canvas palette-' + $palette"
+          data-style="{'--bloom-scale': Math.sqrt(800/$density)*(145+$spread*1.35)/240, '--angle': (137.508+($seed%19)*.045)+'deg'}"
+        >
+          <style
+            data-text="'.petal:nth-child(n+' + (Math.round($density*$growth)+1) + '){display:none}'"
+          ></style>
+          <div class="canvas-top">
+            <span><i class="live-dot"></i> LIVING COMPOSITION</span
+            ><span class="specimen"
+              >SPECIMEN
+              <b data-text="String($seed).padStart(5,'0')">00042</b></span
+            >
+          </div>
+          <div
+            class="art-wrap"
+            data-style:transform="'rotate('+$rotation+'deg)'"
+          >
+            <!-- ARTWORK -->
+          </div>
+          <div class="axis axis-left">Y +</div>
+          <div class="axis axis-right">+ X</div>
+          <div class="cross cross-one">+</div>
+          <div class="cross cross-two">+</div>
+          <div class="canvas-bottom">
+            <div>
+              <span class="caption">FIG. 01</span
+              ><span
+                class="art-name"
+                data-text="$palette === 'iris' ? 'Iris, in emergence' : $palette === 'ember' ? 'Ember, in bloom' : 'Tide, unfolding'"
+                >Iris, in emergence</span
+              >
+            </div>
+            <span class="coordinates"
+              >φ 137.508° &nbsp; / &nbsp;
+              <span data-text="Math.round($density*$growth)">420</span>
+              ELEMENTS</span
+            >
+          </div>
+        </div>
+        <aside class="controls">
+          <div class="panel-heading">
+            <span class="eyebrow">THE PARAMETERS</span><span>↗</span>
+          </div>
+          <h2>Cultivate a feeling.</h2>
+          <p class="panel-description">Small changes. Unexpected beauty.</p>
+          <fieldset>
+            <legend>01 <span>Chromatic atmosphere</span></legend>
+            <div class="palettes">
+              <button
+                class="palette"
+                data-class:chosen="$palette === 'iris'"
+                data-attr:aria-pressed="$palette === 'iris'"
+                data-on:click="$palette = 'iris'"
+              >
+                <span class="swatch iris"></span>Iris</button
+              ><button
+                class="palette"
+                data-class:chosen="$palette === 'ember'"
+                data-attr:aria-pressed="$palette === 'ember'"
+                data-on:click="$palette = 'ember'"
+              >
+                <span class="swatch ember"></span>Ember</button
+              ><button
+                class="palette"
+                data-class:chosen="$palette === 'tide'"
+                data-attr:aria-pressed="$palette === 'tide'"
+                data-on:click="$palette = 'tide'"
+              >
+                <span class="swatch tide"></span>Tide
+              </button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>02 <span>Growth structure</span></legend>
+            <label for="density"
+              >Density <output data-text="$density">420</output></label
+            ><input
+              id="density"
+              type="range"
+              min="80"
+              max="800"
+              step="10"
+              data-bind:density
+            />
+            <div class="range-labels">
+              <span>SPARSE</span><span>ABUNDANT</span>
+            </div>
+            <label for="spread"
+              >Expansion
+              <output><span data-text="$spread">70</span>%</output></label
+            ><input
+              id="spread"
+              type="range"
+              min="10"
+              max="100"
+              data-bind:spread
+            />
+            <div class="range-labels">
+              <span>GATHERED</span><span>OPEN</span>
+            </div>
+          </fieldset>
+          <div class="orientation">
+            <label for="rotation"
+              >Perspective
+              <output><span data-text="$rotation">0</span>°</output></label
+            ><input
+              id="rotation"
+              type="range"
+              min="-180"
+              max="180"
+              data-bind:rotation
+            />
+          </div>
+          <div class="actions">
+            <button
+              class="grow"
+              data-indicator:busy
+              data-attr:disabled="$busy"
+              data-on:click="$growth = 0; @get('/api/grow')"
+            >
+              <span data-text="$busy ? 'Growing your garden…' : 'Let it grow'"
+                >Let it grow</span
+              ><span data-text="$busy ? '◌' : '↗'">↗</span></button
+            ><button
+              class="reseed"
+              data-on:click="$seed = Math.floor(Math.random()*99999)+1"
+            >
+              <span>⤨</span> Discover another seed
+            </button>
+          </div>
+          <p class="control-footnote">
+            A moment of emergence.<br />Instant local controls. Server-streamed
+            growth.
+          </p>
+        </aside>
+      </section>
+      <section class="understory">
+        <div class="understory-title">
+          <span class="eyebrow">BEHIND THE BLOOM</span>
+          <h2>Simple signals.<br /><em>Living systems.</em></h2>
+        </div>
+        <div class="principle">
+          <span class="number">01 / REACT</span>
+          <h3>Every gesture is a signal.</h3>
+          <p>
+            Every control responds locally. Color, density, expansion, and
+            perspective flow directly from signals into the artwork.
+          </p>
+        </div>
+        <div class="principle">
+          <span class="number">02 / STREAM</span>
+          <h3>The server plants the seeds.</h3>
+          <p>
+            Let it grow. One request streams 64 tiny signal updates. The petals
+            stay in place; only the growth state changes.
+          </p>
+        </div>
+        <div class="principle">
+          <span class="number">03 / OBSERVE</span>
+          <h3>Nothing behind the curtain.</h3>
+          <p>
+            Open the live readout to follow signals and server updates as the
+            garden takes shape.
+          </p>
+          <button
+            class="text-button"
+            data-on:click="$inspect = !$inspect"
+            data-attr:aria-expanded="$inspect"
+            aria-controls="readout"
+          >
+            <span
+              data-text="$inspect ? 'Close the readout' : 'Open the live readout'"
+              >Open the live readout</span
+            >
+            ↗
+          </button>
+        </div>
+      </section>
+      <section
+        id="readout"
+        class="readout"
+        data-show="$inspect"
+        style="display: none"
+      >
+        <div>
+          <span class="eyebrow">LIVE SIGNAL READOUT</span>
+          <p>Real values from Datastar’s reactive state.</p>
+        </div>
+        <dl>
+          <div>
+            <dt>STATUS</dt>
+            <dd data-text="$status">Ready</dd>
+          </div>
+          <div>
+            <dt>FRAME</dt>
+            <dd data-text="$frame">0</dd>
+          </div>
+          <div>
+            <dt>ELEMENTS</dt>
+            <dd data-text="Math.round($density*$growth)">0</dd>
+          </div>
+          <div>
+            <dt>STREAM TIME</dt>
+            <dd><span data-text="($elapsed/1000).toFixed(2)">0</span>s</dd>
+          </div>
+          <div>
+            <dt>SEED</dt>
+            <dd data-text="$seed">42</dd>
+          </div>
+        </dl>
+        <code
+          >&lt;button data-attr:disabled="$busy" data-on:click="$growth = 0;
+          @get('/api/grow')"&gt;</code
+        >
+      </section>
+    </main>
+    <footer>
+      <span>✳ &nbsp; Made of mathematics. Meant to feel like nature.</span
+      ><a href="https://data-star.dev/" target="_blank" rel="noreferrer"
+        >Grown with Datastar v1.0.4 ↗</a
+      ><span>RAYMOND / EXPERIMENTS</span>
+    </footer>
+    <noscript
+      ><p class="no-js">
+        Enable JavaScript to explore this Datastar experiment.
+      </p></noscript
+    >
+  </body>
+</html>
