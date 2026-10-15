@@ -12,6 +12,11 @@
 * {
   box-sizing: border-box;
 }
+html,
+body {
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
 body {
   margin: 0;
   background: var(--bg);
