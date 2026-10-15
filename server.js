@@ -4,7 +4,10 @@ import handler from "./api/grow.js";
 const files = {
   "/": "index.html",
   "/style.css": "style.css",
+  "/studio.js": "studio.js",
+  "/field.js": "field.js",
   "/vendor/datastar.js": "vendor/datastar.js",
+  "/vendor/datastar.js.map": "vendor/datastar.js.map",
 };
 createServer(async (req, res) => {
   const path = new URL(req.url, "http://localhost").pathname;
@@ -19,11 +22,13 @@ createServer(async (req, res) => {
     );
     res.setHeader(
       "Content-Type",
-      path.endsWith(".css")
-        ? "text/css"
-        : path.endsWith(".js")
-          ? "text/javascript"
-          : "text/html",
+      path.endsWith(".map")
+        ? "application/json"
+        : path.endsWith(".css")
+          ? "text/css"
+          : path.endsWith(".js")
+            ? "text/javascript"
+            : "text/html",
     );
     res.end(content);
   } catch {

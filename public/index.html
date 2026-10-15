@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101518" />
+    <meta
+      name="description"
+      content="A living systems studio. Sculpt thousands of particles, explore four generative worlds, and collect your happy accidents. Built with Datastar."
+    />
+    <title>Signal Garden — Living systems studio</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✳%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/studio.js"></script>
+  </head>
+  <body
+    data-signals="{system:'bloom',palette:'iris',count:1600,spread:68,twist:35,speed:35,force:45,size:45,seed:42,zoom:100,tool:'attract',playing:true,lines:false,growth:1,drift:0,busy:false,frame:0,elapsed:0,status:'Ready',inspect:false,help:false,notice:'',fps:0,pins:0,canUndo:false,canRedo:false,shareLink:''}"
+    data-init="studio.init()"
+  >
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Signal Garden home"
+        ><span>✳</span> signal garden <small>STUDIO / 002</small></a
+      >
+      <div class="top-actions">
+        <span class="connection"><i></i> A living systems playground</span
+        ><button
+          class="quiet"
+          data-on:click="$help=!$help"
+          data-attr:aria-expanded="$help"
+        >
+          Guide <kbd>H</kbd></button
+        ><a
+          class="source"
+          href="https://github.com/raymondreaming/signal-garden"
+          target="_blank"
+          rel="noreferrer"
+          >Source ↗</a
+        ><button class="export" data-on:click="studio.export()">
+          Export PNG <span>↗</span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <section class="studio-heading">
+        <div>
+          <p class="eyebrow">SMALL GESTURES. COMPLEX WORLDS.</p>
+          <h1>Make room for <em>emergence.</em></h1>
+        </div>
+        <p>
+          A little mathematics. A little mischief.<br />Move through the field
+          and see what follows.
+        </p>
+      </section>
+      <section class="workspace" aria-label="Living systems studio">
+        <nav class="system-rail" aria-label="Generative systems">
+          <span class="rail-label">SYSTEMS</span
+          ><button
+            data-class:active="$system==='bloom'"
+            data-attr:aria-pressed="$system==='bloom'"
+            data-on:click="studio.preset('bloom')"
+          >
+            <span class="system-symbol">✳</span><b>Bloom</b
+            ><small>01</small></button
+          ><button
+            data-class:active="$system==='vortex'"
+            data-attr:aria-pressed="$system==='vortex'"
+            data-on:click="studio.preset('vortex')"
+          >
+            <span class="system-symbol">◉</span><b>Vortex</b
+            ><small>02</small></button
+          ><button
+            data-class:active="$system==='ribbons'"
+            data-attr:aria-pressed="$system==='ribbons'"
+            data-on:click="studio.preset('ribbons')"
+          >
+            <span class="system-symbol">≋</span><b>Ribbons</b
+            ><small>03</small></button
+          ><button
+            data-class:active="$system==='constellation'"
+            data-attr:aria-pressed="$system==='constellation'"
+            data-on:click="studio.preset('constellation')"
+          >
+            <span class="system-symbol">⠿</span><b>Stars</b
+            ><small>04</small></button
+          ><span class="rail-bottom">EXPLORE<br />THE POSSIBLE</span>
+        </nav>
+        <div class="stage-column">
+          <div class="stage">
+            <div class="stage-heading">
+              <span
+                ><i class="live-dot" data-class:paused="!$playing"></i
+                ><span data-text="$playing?'LIVING FIELD':'TIME, SUSPENDED'"
+                  >LIVING FIELD</span
+                ></span
+              ><span
+                >SEED
+                <b data-text="String($seed).padStart(5,'0')">00042</b></span
+              >
+            </div>
+            <living-field
+              id="field"
+              data-attr:config="JSON.stringify({system:$system,palette:$palette,count:$count,spread:$spread,twist:$twist,speed:$speed,force:$force,size:$size,seed:$seed,zoom:$zoom,tool:$tool,playing:$playing,lines:$lines})"
+              data-attr:growth="$growth"
+              data-attr:drift="$drift"
+            ></living-field>
+            <div class="stage-title">
+              <span
+                class="eyebrow"
+                data-text="'EXPERIMENT / '+$system.toUpperCase()"
+                >EXPERIMENT / BLOOM</span
+              >
+              <h2
+                data-text="$system==='bloom'?'An unfolding thought.':$system==='vortex'?'Everything, in orbit.':$system==='ribbons'?'Between the waves.':'A constellation of almosts.'"
+              >
+                An unfolding thought.
+              </h2>
+            </div>
+            <div class="stage-hint">
+              <span>MOVE TO INFLUENCE</span><span>CLICK TO PIN A FORCE</span>
+            </div>
+            <div class="tool-dock" role="group" aria-label="Pointer force">
+              <button
+                title="Attract particles"
+                data-class:active="$tool==='attract'"
+                data-attr:aria-pressed="$tool==='attract'"
+                data-on:click="$tool='attract'"
+              >
+                ⊙ <span>Attract</span></button
+              ><button
+                title="Repel particles"
+                data-class:active="$tool==='repel'"
+                data-attr:aria-pressed="$tool==='repel'"
+                data-on:click="$tool='repel'"
+              >
+                ⊗ <span>Repel</span></button
+              ><button
+                title="Swirl particles"
+                data-class:active="$tool==='swirl'"
+                data-attr:aria-pressed="$tool==='swirl'"
+                data-on:click="$tool='swirl'"
+              >
+                ↻ <span>Swirl</span></button
+              ><span class="dock-divider"></span
+              ><button
+                title="Clear pinned forces"
+                data-attr:disabled="$pins===0"
+                data-on:click="document.getElementById('field').clearPins()"
+              >
+                × <span data-text="$pins ? $pins+' pins' : 'Clear'">Clear</span>
+              </button>
+            </div>
+          </div>
+          <div class="transport">
+            <div class="transport-left">
+              <button
+                class="play"
+                data-attr:aria-label="$playing?'Pause animation':'Play animation'"
+                data-on:click="$playing=!$playing"
+                data-text="$playing?'Ⅱ':'▶'"
+              >
+                Ⅱ</button
+              ><span data-text="$playing?'Playing':'Paused'">Playing</span
+              ><span class="transport-divider"></span
+              ><button
+                title="Undo configuration change"
+                aria-label="Undo"
+                data-attr:disabled="!$canUndo"
+                data-on:click="studio.undo()"
+              >
+                ↶</button
+              ><button
+                title="Redo configuration change"
+                aria-label="Redo"
+                data-attr:disabled="!$canRedo"
+                data-on:click="studio.redo()"
+              >
+                ↷
+              </button>
+            </div>
+            <div class="zoom">
+              <button
+                aria-label="Zoom out"
+                data-attr:disabled="$zoom<=50"
+                data-on:click="$zoom=Math.max(50,$zoom-10)"
+              >
+                −</button
+              ><button
+                title="Reset zoom"
+                data-on:click="$zoom=100"
+                data-text="$zoom+'%'"
+              >
+                100%</button
+              ><button
+                aria-label="Zoom in"
+                data-attr:disabled="$zoom>=180"
+                data-on:click="$zoom=Math.min(180,$zoom+10)"
+              >
+                +
+              </button>
+            </div>
+            <span class="fps"
+              ><i></i
+              ><span data-text="$fps ? $fps+' FPS' : 'RESTING'"
+                >RESTING</span
+              ></span
+            >
+          </div>
+        </div>
+        <aside class="inspector">
+          <div class="panel-top">
+            <p class="eyebrow">SHAPE THE SYSTEM</p>
+            <span>↗</span>
+          </div>
+          <h2>Your kind of chaos.</h2>
+          <p class="panel-note">Everything is connected. Try something.</p>
+          <fieldset>
+            <legend>01 <span>Atmosphere</span></legend>
+            <div class="palette-grid">
+              <button
+                class="palette"
+                aria-label="Iris palette"
+                data-class:selected="$palette==='iris'"
+                data-attr:aria-pressed="$palette==='iris'"
+                data-on:click="$palette='iris'"
+              >
+                <i class="iris"></i>Iris</button
+              ><button
+                class="palette"
+                aria-label="Ember palette"
+                data-class:selected="$palette==='ember'"
+                data-attr:aria-pressed="$palette==='ember'"
+                data-on:click="$palette='ember'"
+              >
+                <i class="ember"></i>Ember</button
+              ><button
+                class="palette"
+                aria-label="Tide palette"
+                data-class:selected="$palette==='tide'"
+                data-attr:aria-pressed="$palette==='tide'"
+                data-on:click="$palette='tide'"
+              >
+                <i class="tide"></i>Tide</button
+              ><button
+                class="palette"
+                aria-label="Gold palette"
+                data-class:selected="$palette==='gold'"
+                data-attr:aria-pressed="$palette==='gold'"
+                data-on:click="$palette='gold'"
+              >
+                <i class="gold"></i>Gold
+              </button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>02 <span>Form & structure</span></legend>
+            <label for="count"
+              >Population
+              <output data-text="$count.toLocaleString()">1,600</output></label
+            ><input
+              id="count"
+              type="range"
+              min="200"
+              max="4000"
+              step="100"
+              data-bind:count
+            /><label for="spread"
+              >Expansion <output data-text="$spread+'%'">68%</output></label
+            ><input
+              id="spread"
+              type="range"
+              min="20"
+              max="100"
+              data-bind:spread
+            /><label for="twist"
+              >Complexity <output data-text="$twist+'%'">35%</output></label
+            ><input
+              id="twist"
+              type="range"
+              min="0"
+              max="100"
+              data-bind:twist
+            /><label for="size"
+              >Particle size <output data-text="$size+'%'">45%</output></label
+            ><input id="size" type="range" min="10" max="100" data-bind:size />
+          </fieldset>
+          <fieldset>
+            <legend>03 <span>Motion & influence</span></legend>
+            <label for="speed"
+              >Tempo <output data-text="$speed+'%'">35%</output></label
+            ><input
+              id="speed"
+              type="range"
+              min="0"
+              max="100"
+              data-bind:speed
+            /><label for="force"
+              >Pointer force <output data-text="$force+'%'">45%</output></label
+            ><input
+              id="force"
+              type="range"
+              min="0"
+              max="100"
+              data-bind:force
+            /><label class="check"
+              ><span>Draw connections</span
+              ><input type="checkbox" data-bind:lines
+            /></label>
+          </fieldset>
+          <div class="inspector-actions">
+            <button
+              class="evolve"
+              data-show="!$busy"
+              data-indicator:busy
+              data-on:click="@get('/api/grow', {requestCancellation:studio.begin(),retry:'never',filterSignals:{include:/^seed$/},openWhenHidden:true}).catch(() => studio.streamFailed())"
+            >
+              <span>Let it evolve</span>✧</button
+            ><button
+              class="evolve stop"
+              data-show="$busy"
+              style="display: none"
+              data-on:click="studio.stop()"
+            >
+              <span>Stop evolution</span>■</button
+            ><button class="shuffle" data-on:click="studio.shuffle()">
+              ⤨ &nbsp; Discover another seed <kbd>R</kbd>
+            </button>
+          </div>
+        </aside>
+      </section>
+      <section class="status-bar">
+        <div>
+          <span class="status-dot"></span
+          ><span data-text="Math.round($count*$growth).toLocaleString()"
+            >1,600</span
+          >
+          particles <span class="separator">/</span> Local controls. Living
+          signals.
+        </div>
+        <button
+          data-on:click="$inspect=!$inspect"
+          data-attr:aria-expanded="$inspect"
+          aria-controls="readout"
+        >
+          <span data-text="$inspect?'Hide signal monitor':'Open signal monitor'"
+            >Open signal monitor</span
+          >
+          <span>⌁</span>
+        </button>
+      </section>
+      <section
+        id="readout"
+        class="readout"
+        data-show="$inspect"
+        style="display: none"
+      >
+        <div class="readout-title">
+          <p class="eyebrow">SERVER → SIGNAL → CANVAS</p>
+          <h3>Watch the invisible work.</h3>
+          <p>Evolution sends tiny state updates. Local controls stay yours.</p>
+        </div>
+        <dl>
+          <div>
+            <dt>STATUS</dt>
+            <dd data-text="$status">Ready</dd>
+          </div>
+          <div>
+            <dt>EVENT</dt>
+            <dd><span data-text="$frame">0</span> / 96</dd>
+          </div>
+          <div>
+            <dt>STREAM TIME</dt>
+            <dd><span data-text="($elapsed/1000).toFixed(2)">0</span>s</dd>
+          </div>
+          <div>
+            <dt>GROWTH</dt>
+            <dd data-text="Math.round($growth*100)+'%'">100%</dd>
+          </div>
+        </dl>
+        <p id="stream-note" class="stream-note">
+          Start an evolution to receive a live note from the server.
+        </p>
+        <div class="stream-progress">
+          <span data-style:width="($frame/96*100)+'%'"></span>
+        </div>
+      </section>
+      <section class="collection-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR FIELD NOTES</p>
+            <h2>Keep the <em>happy accidents.</em></h2>
+          </div>
+          <div>
+            <button class="quiet" data-on:click="studio.share()">
+              Copy recipe link ↗</button
+            ><button class="save" data-on:click="studio.save()">
+              + Save composition <kbd>S</kbd>
+            </button>
+          </div>
+        </div>
+        <p class="collection-note">
+          Up to eight recipes, saved on this device. Restore the settings; let a
+          new moment unfold.
+        </p>
+        <div id="collection" class="collection"></div>
+        <div
+          class="share-fallback"
+          data-show="$shareLink!==''"
+          style="display: none"
+        >
+          <label for="share-link">Your recipe link</label
+          ><input id="share-link" readonly data-bind:share-link /><button
+            data-on:click="$shareLink=''"
+          >
+            Close
+          </button>
+        </div>
+      </section>
+      <section class="guide" data-show="$help" style="display: none" id="guide">
+        <div>
+          <p class="eyebrow">A FEW WAYS IN</p>
+          <h2>There is no wrong turn.</h2>
+        </div>
+        <p>
+          <b>Move, then click.</b> Your pointer bends the field. Click to leave
+          up to six forces behind. Use Attract, Repel, or Swirl, then Clear to
+          start over.
+        </p>
+        <p>
+          <b>Play with time.</b> Space pauses the animation. 1–4 load systems. R
+          changes the seed. S saves a recipe. H toggles this guide. Escape stops
+          evolution and clears overlays.
+        </p>
+        <p>
+          <b>Take something with you.</b> Export a PNG of the current moment, or
+          share a recipe link. Saved recipes include the controls, but not
+          temporary pointer forces or animation time.
+        </p>
+      </section>
+    </main>
+    <footer>
+      <span>✳ &nbsp; A study in emergence.</span
+      ><span>Datastar signals · Canvas 2D · Server-sent events</span
+      ><a href="https://data-star.dev/" target="_blank" rel="noreferrer"
+        >Grown with Datastar ↗</a
+      >
+    </footer>
+    <div
+      class="toast"
+      role="status"
+      aria-live="polite"
+      data-show="$notice!==''"
+      data-text="$notice"
+      style="display: none"
+    ></div>
+    <noscript
+      ><p class="no-js">
+        JavaScript is required for this interactive studio.
+      </p></noscript
+    >
+  </body>
+</html>
